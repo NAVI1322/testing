@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  password  String
+  role      Role
+  createdAt DateTime   @default(now())
+  updatedAt DateTime?  @updatedAt 
+  Employee  Employee?  @relation
+  Recruiter Recruiter? @relation
+}
+
+model Employee {
+  id           String        @id @default(uuid())
+  firstName    String
+  lastName     String
+  email        String        @unique
+  about        String?
+  userId       Int           @unique 
+  user         User          @relation(fields: [userId], references: [id])
+  history      E_History[]
+  archived     E_Archive[]
+  applications Application[] // Applications submitted by the employee
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime?     @updatedAt
+}
+
+model Recruiter {
+  id           String         @id @default(uuid())
+  companyName  String
+  firstName    String
+  lastName     String
+  aboutCompany    String
+  email        String
+  userId       Int            @unique 
+  user         User           @relation(fields: [userId], references: [id])
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime?      @updatedAt
+  availableJobs AvailableJob[] @relation("RecruiterJobs")
+  applications  Application[]  @relation("RecruiterApplications")
+  AvailableJob AvailableJob[]
+
+  Application Application[]
+}
+
+model AvailableJob {
+  id               String           @id @default(uuid())
+  recruiterId      String?         
+  recruiter        Recruiter?       @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
+  jobDescriptionId String           
+  jobDescription   JobDescription   @relation(fields: [jobDescriptionId], references: [id])
+  questions        Question[]       @relation("JobQuestions")
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime?        @updatedAt
+  JobDescription JobDescription[] @relation("JobDescriptionAvailableJobs")
+  Recruiter Recruiter[] @relation("RecruiterJobs")
+}
+
+model JobDescription {
+  id                       String         @id @default(uuid())
+  jobName                  String
+  location                 String
+  description              String
+  benefits                 String
+  ourValues                String
+  positionSummary          String
+  positionResponsibilities String
+  skills                   String
+  whyWorkWithUs            String
+  availableJobs            AvailableJob[] @relation("JobDescriptionAvailableJobs")
+  createdAt                DateTime       @default(now())
+  updatedAt                DateTime?      @updatedAt
+
+  AvailableJob AvailableJob[]
+}
+
+model Question {
+  id             String        @id @default(uuid())
+  jobId          String?
+  availableJob   AvailableJob? @relation("JobQuestions", fields: [jobId], references: [id])
+  type           String
+  content        String
+  options        String[] // Store options as an array of strings
+  correctAnswers String[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime?     @updatedAt 
+}
+
+model Application {
+  id          String            @id @default(uuid())
+  employeeId  String            // Foreign key to Employee
+  employee    Employee          @relation(fields: [employeeId], references: [id])
+  recruiterId String?           // Foreign key to Recruiter (nullable if applied directly by employee)
+  recruiter   Recruiter?        @relation(fields: [recruiterId], references: [id])
+  position    String
+  status      ApplicationStatus // Enum for PENDING, ACCEPTED, REJECTED, etc.
+  appliedAt   DateTime          @default(now())
+  reviewedAt  DateTime?
+  Recruiter Recruiter[] @relation("RecruiterApplications")
+}
+
+model E_History {
+  id          String    @id @default(uuid())
+  employeeId  String    // Foreign key to Employee
+  employee    Employee  @relation(fields: [employeeId], references: [id])
+  companyName String
+  role        String
+  startDate   DateTime
+  endDate     DateTime?
+  description String
+}
+
+model E_Archive {
+  id          String   @id @default(uuid())
+  employeeId  String   // Foreign key to Employee
+  employee    Employee @relation(fields: [employeeId], references: [id])
+  companyName String
+  archivedAt  DateTime @default(now())
+}
+
+enum Role {
+  JOB_SEEKER
+  RECRUITER
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  ARCHIVED
+}

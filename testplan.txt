@@ -1,0 +1,8 @@
+question making section on left
+question numbers on right
+add a question button (three places)
+split time equally
+set time (three places)
+undo redo steps
+redordering
+switch type
