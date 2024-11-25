@@ -24,9 +24,12 @@ const HomePage = () => (
     <Navbar />
     <div className="max-w-7xl mx-auto pt-20 px-6">
       <HeroSection />
-      {sections.map(({ left, right }, index) => (
+      {sections.map(({ left, right, id }, index) => (
+        <div id={id} className='pt-20'>
+
         <React.Fragment key={index}>
           <TextBreak lefttext={left} righttext={right} />
+    
           {index === 1 && <MarqueeDemo />}
           {index === 2 && <Timeline data={timelineData} />}
           {index === 3 && (
@@ -36,9 +39,10 @@ const HomePage = () => (
           )}
           {index === 4 && <FeatureSection />}
         </React.Fragment>
+          </div>
       ))}
-      <CardHoverEffectDemo />
       <Workflow />
+      <CardHoverEffectDemo />
       <Pricing />
       <Testimonials />
       <GlobeDemo />/

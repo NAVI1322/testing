@@ -85,18 +85,21 @@ export const reviews = [
   },
 ];
 export const sections = [
-  { left: 'Your Advantage', right: 'Awaits' },
-  { left: 'Our', right: 'Partners' },
-  { left: 'How it', right: 'Works?' },
-  { left: 'Employer', right: 'Services' },
-  { left: 'Game', right: 'Features' },
+  { left: '', right: '', id:'advantage' },
+  { left: 'Our', right: 'Partners', id:'partners' },
+  { left: 'How it', right: 'Works?', id:'works' },
+  { left: 'Employer', right: 'Services', id:'services' },
+  { left: 'Game', right: 'Features', id:'features' },
+  { left: 'Our', right: 'Facilities', id:'facilities' },
 ];
 
 export const navItems = [
-  { label: "How it Works", href: "#" },
-  { label: "Game Features", href: "#" },
-  { label: "Pricing Plans", href: "#" },
-  { label: "Community", href: "#" },
+  { label: "Partners", href: "#partners" },
+  { label: "How It Works", href: "#works" },
+  { label: "Services", href: "#services" },
+  { label: "Features", href: "#features" },
+  { label: "Facilities", href: "#facilities" },
+  { label: "Pricing", href: "#pricings" },
 ];
 
 type TimelineEntry = {
