@@ -26,8 +26,8 @@ export function TypewriterEffectSmoothDemo() {
         Connecting Talent, Powering Growth.
       </p>
       <TypewriterEffectSmooth words={words} />
-      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-<Button variant={"myButton"}>Join Now!</Button>
+      <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4 font-semibold tracking-wider text-3xl">
+Join Now
 
       </div>
     </div>

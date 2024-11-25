@@ -5,6 +5,7 @@ const signUpCall = async ( email?: string, otp?: string, role?: string, password
   try {
     // Step 1: Send email to get OTP
     if (!otp && !role && !password) {
+      console.log("hello")
       const response = await axios.post('http://localhost:3000/auth/signup', {
         step: 'email',
         email: email,

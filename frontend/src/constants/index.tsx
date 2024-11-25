@@ -99,7 +99,7 @@ export const navItems = [
   { label: "Services", href: "#services" },
   { label: "Features", href: "#features" },
   { label: "Facilities", href: "#facilities" },
-  { label: "Pricing", href: "#pricings" },
+  // { label: "Pricing", href: "#pricings" },
 ];
 
 type TimelineEntry = {

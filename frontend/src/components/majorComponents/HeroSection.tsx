@@ -65,8 +65,10 @@ const HeroSection = () => {
           className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50"
           onClick={closePopup} // Close the popup if clicked outside
         >
+ 
+
           <div
-            className={`bg-gradient-to-r from-blue-500 to-blue-800 p-8 rounded-lg shadow-lg w-80 md:w-96 transform transition-all duration-500 ease-in-out ${
+            className={`bg-gradient-to-r from-blue-500/40 to-blue-800/50 p-8 rounded-lg shadow-lg w-80 md:w-96 transform transition-all duration-500 ease-in-out ${
               closing
                 ? "animate__animated animate__zoomOut" // Apply closing animation
                 : "animate__animated animate__zoomIn" // Apply opening animation
@@ -110,6 +112,8 @@ const HeroSection = () => {
               </button>
             </div>
           </div>
+     
+
         </div>
       )}
     </div>

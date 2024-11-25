@@ -50,9 +50,7 @@ export default function CarouselSize() {
                 <CardContent className="flex flex-col items-center justify-center p-6 ">
                   <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">{item.title}</h3> {/* Title color for light/dark modes */}
                   <p className="text-center text-gray-700 dark:text-gray-300 mb-4">{item.description}</p> {/* Description color for light/dark modes */}
-                  <button className="bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-600 transition"> {/* Button styles for light/dark modes */}
-                    Learn More
-                  </button>
+              
                 </CardContent>
               </Card>
             </div>

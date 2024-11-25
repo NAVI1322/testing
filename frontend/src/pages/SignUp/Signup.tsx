@@ -140,7 +140,7 @@ const Signup = () => {
                 to="/login"
                 className="ml-2 text-blue-300 hover:text-blue-500 "
               >
-                Sign up
+                Log in
               </Link>
             </div>
           </form>

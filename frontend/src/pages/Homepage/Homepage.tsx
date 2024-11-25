@@ -43,7 +43,7 @@ const HomePage = () => (
       ))}
       <Workflow />
       <CardHoverEffectDemo />
-      <Pricing />
+      {/* <Pricing /> */}
       <Testimonials />
       <GlobeDemo />/
       <Footer />
