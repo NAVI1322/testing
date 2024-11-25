@@ -1,10 +1,11 @@
-import { createjob } from "../services/createAJob";
+
 import { Request, Response } from 'express';
 import { getAllJobs } from "../services/getJobsDetails";
 
 export const getJobDetails = async (req: Request, res: Response): Promise<void> => {
     const { formdata, questions}:any = req.body;
-  
+
+   
     try {
       const updateResult = await getAllJobs(); // Renamed to updateResult to avoid conflict
   

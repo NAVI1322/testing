@@ -1,6 +1,7 @@
 
 import express from 'express';
 import { AddJob } from '../controllers/addJobController';
+import { SubmitJob } from '../controllers/SubmitJob';
 
 
 
@@ -8,6 +9,7 @@ import { AddJob } from '../controllers/addJobController';
 const router = express.Router();
 
 router.post('/createjob',AddJob );
+router.post('/submitApplication',SubmitJob)
 
 
 

@@ -2,40 +2,30 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
+import CreateTest from "@/hooks/CreateTest";
+import { Toast } from "@/components/majorComponents/toast";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 
 
 interface MainBodyProps {
-    formdata?: {
-        jobName: string;
-        skills: string;
-        description: string;
-        location: string;
-        benefits: string;
-        ourValues: string;
-        whyWorkWithUs: string;
-        positionSummary: string;
-        positionResponsibilities: string;
+  formData?: {
+  jobName: string;
+  jobDescription: string;
+  benefits: string;
+  ourValues: string;
+  positionSummary: string;
+  positionResponsibilities: string;
+  skillsRequired: string;
+  whyWorkWithUs: string;
+  wageRate: string;
     };
 }
 
-
-
-interface MainBodyProps {
-    formdata?: {
-        jobName: string;
-        skills: string;
-        description: string;
-        location: string;
-        benefits: string;
-        ourValues: string;
-        whyWorkWithUs: string;
-        positionSummary: string;
-        positionResponsibilities: string;
-    };
-}
-
-const TestStructure = (formdata:MainBodyProps) => {
+const TestStructure = (formData:MainBodyProps) => {
     interface Question {
         id: string;
         type: string;
@@ -46,11 +36,11 @@ const TestStructure = (formdata:MainBodyProps) => {
     }
 
 
- 
 
     const [questions, setQuestions] = useState<Question[]>([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
     const [showQuestionTypeSelection, setShowQuestionTypeSelection] = useState<boolean>(false);
+    const router = useNavigate()
 
     const addQuestion = (type: string) => {
         const newQuestion: Question = {
@@ -58,7 +48,7 @@ const TestStructure = (formdata:MainBodyProps) => {
             type: type,
             time: 30,
             content: "",
-            options: type === "MCQ" ? [""] : [],
+            options: type === "multiple-choice" ? [""] : [],
             correctAnswers: type === "Fill Up" ? [""] : [],
         };
         setQuestions([...questions, newQuestion]);
@@ -180,25 +170,6 @@ const TestStructure = (formdata:MainBodyProps) => {
                         <Button onClick={addOption} variant={"myButton"} className="mt-2">Add Option</Button>
                     </div>
                 );
-            case "Fill Up":
-                return (
-                    <div className="question-container mb-4 p-4 border rounded-md shadow-sm">
-                        <div className="font-semibold mb-5">Question {currentQuestionIndex + 1}</div>
-                        <textarea
-                            className="border p-2 w-full mb-4 rounded-md bg-transparent resize-none"
-                            placeholder="Enter your question here..."
-                            value={question.content}
-                            onChange={(e) => handleQuestionContentChange(e.target.value)}
-                        />
-                        <input
-                            type="text"
-                            className="border p-1 w-full rounded-md bg-transparent outline-0"
-                            placeholder="Correct Answer"
-                            value={question.correctAnswers?.[0] || ""}
-                            onChange={(e) => handleCorrectAnswerChange(0, e.target.value)}
-                        />
-                    </div>
-                );
             case "True/False":
                 return (
                     <div className="question-container mb-4 p-4 border rounded-md shadow-sm">
@@ -227,10 +198,38 @@ const TestStructure = (formdata:MainBodyProps) => {
     };
 
     const finishTest = async () => {
-        console.log(formdata)
-        console.log(JSON.stringify(questions,null,2))
-    // await CreateTest(formdata,questions)
-
+        try {
+          
+    
+            // Retrieve recruiter details from local storage
+            const Email = localStorage.getItem("email");
+            const Role = localStorage.getItem("role");
+            const id = localStorage.getItem("Id");
+    
+            // Validate retrieved details
+            if (!id || !Email || !Role) {
+                Toast("Error", "Unauthorized access. Redirecting...");
+                console.error("Access Denied: Missing recruiter details.");
+                router("/access-denied");
+                return;
+            }
+    
+            // Construct recruiterDetails object
+            const recruiterDetails = {
+                token: id, // Use 'token' as per the Details interface
+                email: Email,
+                role: Role,
+            };
+    
+            const response = await CreateTest(formData, questions, recruiterDetails);
+    
+            console.log("Test created successfully:", response);
+            Toast("Success", "Test created successfully");
+            router('/recruiter');
+        } catch (error: any) {
+            console.error("Error creating test:", error.message || error);
+            Toast("Failed", "Something went wrong. Please try again.");
+        }
     };
 
     return (
@@ -256,7 +255,6 @@ const TestStructure = (formdata:MainBodyProps) => {
                         <div className="font-semibold mb-5">Choose a question type :</div>
                         <div className="flex gap-4 mt-2 justify-center space-x-2">
                             <Button onClick={() => addQuestion("MCQ")} variant={"myButton"}>MCQ</Button>
-                            <Button onClick={() => addQuestion("Fill Up")} variant={"myButton"}>Fill Up</Button>
                             <Button onClick={() => addQuestion("True/False")} variant={"myButton"}>True/False</Button>
                         </div>
                     </div>

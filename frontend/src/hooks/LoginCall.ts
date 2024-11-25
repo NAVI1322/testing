@@ -11,6 +11,8 @@ const loginCall = async (email: string, password: string) => {
         
     localStorage.setItem("Token", response.data.token);
     localStorage.setItem("role", response.data.role);
+    localStorage.setItem("Id", response.data.userdata.id);
+  
     
     return response.data; // Return the response data
   } catch (error: any) {

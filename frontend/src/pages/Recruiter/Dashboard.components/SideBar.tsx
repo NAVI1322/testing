@@ -1,17 +1,16 @@
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+
 import { Button } from "@/components/ui/button";
-import { Save } from "lucide-react";
-import { Navigate, useNavigate } from "react-router-dom";
+
+import {  useNavigate } from "react-router-dom";
 
 const SideBar: React.FC = () => {
   const navigate = useNavigate();
   return (
     <div className="w-[360px] hidden nhd:flex shrink-0 border-l px-10 py-7 flex-col h-fit">
-      <Button variant={"myButton"} className="hidden nhd:block mb-10" onClick={()=>navigate('/teststructure')}>Create Test</Button>
+      <Button variant={"myButton"} className="hidden nhd:block mb-10" onClick={()=>navigate('/create-job')}>Create Job</Button>
       <TipsSection />
       <ResourcesSection />
-      <FollowExperts />
-      <ReadingList />
+
     </div>
   );
 };
@@ -87,60 +86,10 @@ const ResourcesSection: React.FC = () => (
   </div>
 );
 
-// Sample expert data
-const expertsData = [
-  {
-    id: 1,
-    name: "Dr. Sarah Wilson",
-    bio: "Expert in Educational Psychology.",
-  },
-  {
-    id: 2,
-    name: "Mark Thompson",
-    bio: "Specialist in Assessment Design.",
-  },
-  {
-    id: 3,
-    name: "Linda Green",
-    bio: "Experienced Test Developer.",
-  },
-];
 
-// Follow Experts Section
-const FollowExperts: React.FC = () => (
-  <div className="mb-5">
-    <div className="mb-3 font-bold">Experts to Follow</div>
-    {expertsData.map((expert) => (
-      <FollowItem key={expert.id} expert={expert} />
-    ))}
-    <div className="text-sm">See all experts</div>
-  </div>
-);
 
-const FollowItem: React.FC<{ expert: typeof expertsData[0] }> = ({ expert }) => (
-  <div className="mb-4">
-    <div className="flex text-xs items-center gap-2 mb-3 overflow-hidden">
-      <Avatar className='size-5 self-start'>
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>{expert.name.charAt(0)}</AvatarFallback>
-      </Avatar>
-      <div>
-        <div className="">{expert.name}</div>
-        <div className="font-light">{expert.bio}</div>
-      </div>
-      <Button variant={"outline"}>Follow</Button>
-    </div>
-  </div>
-);
 
-// Reading List Section
-const ReadingList: React.FC = () => (
-  <div className="mb-5">
-    <div className="mb-3 font-bold">Reading List</div>
-    <div className="text-xs font-light">
-      Click the <Save className="inline size-4" /> icon on any story to add it to your reading list or a custom list that you can share.
-    </div>
-  </div>
-);
+
+
 
 export default SideBar;

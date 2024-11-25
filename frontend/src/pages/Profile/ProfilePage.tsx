@@ -24,6 +24,7 @@ const ProfilePage = () => {
   const role = localStorage.getItem("role");
   const email = localStorage.getItem("email") || ""; // Default to empty string if null
 
+  
   useEffect(() => {
     const fetchProfile = async () => {
       if (role && email) {

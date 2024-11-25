@@ -149,6 +149,7 @@ export const loginService = async (email: string, password: string) => {
         },
         Recruiter:{
           select:{
+            id:true,
             firstName:true,
             lastName:true,
             companyName:true,

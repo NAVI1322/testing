@@ -7,12 +7,14 @@ import ProfilePage from './pages/Profile/ProfilePage'
 import HomePage from './pages/Homepage/Homepage'
 import TestCreator from './pages/TestCreator/TestCreator'
 import TestStructure from './pages/TestStructure/TestStructure'
-import Test from './pages/Test/Test'
 import Recruiter from './pages/Recruiter/Recruiter'
 import Applications from './pages/Applications/Applications'
 import JobDescriptionPage from './pages/JobApplications/Jobdesc'
 import Rest from './pages/Test/Rest'
 import ApplyFormPage from './pages/Dashboard/Dashboard.components/ApplyFormPage'
+import QuizResults from './pages/quizResult/QuizResult'
+import R_Jobdetails from './pages/R_jobdescription/R_Jobdetails'
+import AccessDenied from './components/majorComponents/access-denied'
 
 function App() {
 
@@ -27,12 +29,14 @@ function App() {
         <Route path="/testcreator" element={<TestCreator />} />
         <Route path="/profile" element={<ProfilePage/>} />
         <Route path="/teststructure" element={<TestStructure/>} />
-        <Route path="/test" element={<Test/>} />
         <Route path="/recruiter" element={<Recruiter/>} />
-        <Route path="/applications" element={<Applications/>} />
+        <Route path="/applications" element={<Applications />} />
         <Route path="/rest" element={<Rest/>} />
         <Route path="/description" element={<JobDescriptionPage/>} />
         <Route path="/apply" element={<ApplyFormPage/>} />
+        <Route path="/quiz-results" element={<QuizResults/>} />
+        <Route path="/create-job" element={<R_Jobdetails/>} />
+        <Route path="/access-denied" element={<AccessDenied />} />
 
       </Routes>
     </>

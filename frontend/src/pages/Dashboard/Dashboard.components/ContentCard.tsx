@@ -24,7 +24,6 @@ const ContentCard: React.FC<ContentCardProps> = ({
   publication,
   articleHeading,
   articleDescription,
-  articleImageSrc,
   time,
   HandleApplicationClickEvent 
 }) => {
@@ -56,11 +55,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
                 {articleDescription}
               </div>
             </div>
-            <img
-              src={articleImageSrc}
-              className="w-20 h-14 shrink-0 md:w-40 md:h-[107px]"
-              alt="article image"
-            />
+           
           </div>
           <div className="flex justify-between">
             <div className="flex items-center gap-5 text-xs">

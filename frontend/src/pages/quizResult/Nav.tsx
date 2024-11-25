@@ -26,10 +26,10 @@ const Navbar = () => {
   return (
     <>
 
-      <div className='flex  px-5 py-3 justify-between items-center p-5 border-b w-full'>
+      <div className='flex bg-blue-800  px-5 py-3 justify-between items-center p-5 border-b w-full'>
 
         <div>
-          <Button variant={"link"} onClick={handleBack}>Back</Button>
+          <Button variant={"link"} onClick={handleBack} >Back</Button>
         </div>
          
        <div className="flex items-center space-x-7">

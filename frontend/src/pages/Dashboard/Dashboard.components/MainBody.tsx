@@ -66,6 +66,7 @@ const MainBody: React.FC = () => {
         async function fetchJobs() {
             try {
                 const res = await getJobsDetails();
+                console.log(JSON.stringify(res.data))
                 setJobData(res.data);
                 setisLoaded(true);
             } catch (error) {

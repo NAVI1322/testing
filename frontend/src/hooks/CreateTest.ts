@@ -10,24 +10,40 @@ interface QuestionData {
 }
 
 interface MainBodyProps {
-    formdata?: {
+    formData?: {
         jobName: string;
-        skills: string;
-        description: string;
-        location: string;
+        jobDescription: string;
         benefits: string;
         ourValues: string;
-        whyWorkWithUs: string;
         positionSummary: string;
         positionResponsibilities: string;
+        skillsRequired: string;
+        whyWorkWithUs: string;
+        wageRate: string;
     };
 }
 
+interface Details{
+    email : string ;
+    role  :  string ;
+    token : string ;
+}
+
 // Adjusted the parameter type to be an array of QuestionData
-const CreateTest = async (Jobdata:MainBodyProps, questions: QuestionData[]) => {
+const CreateTest = async (Jobdata:MainBodyProps, questions: QuestionData[], recruiterDetails:Details) => {
+
+    console.log(recruiterDetails)
     try {
+      
+
+        
         const response = await axios.post('http://localhost:3000/create/createjob', {
             Jobdata,
+            recruiterDetails:{
+                Email:recruiterDetails.email,
+                Token:recruiterDetails.token,
+                Role:recruiterDetails.role
+            },
             questions: questions.map(e => ({
                 type: e.type,
                 content: e.content,

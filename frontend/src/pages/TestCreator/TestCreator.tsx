@@ -1,44 +1,57 @@
 import { ThemeProvider } from '../../components/theme/themeProvider';
 import MainBody from './QuestionTemplates/MainBody';
 import Navbar from './QuestionTemplates/Navbar';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
-// Define the props interface outside of the component
 interface MainBodyProps {
-    jobName: string;
-    skills: string;
-    description: string;
-    location: string;
-    benefits: string;
-    ourValues: string;
-    whyWorkWithUs: string;
-    positionSummary: string;
-    positionResponsibilities: string;
+  jobName: string;
+  jobDescription: string;
+  benefits: string;
+  ourValues: string;
+  positionSummary: string;
+  positionResponsibilities: string;
+  skillsRequired: string;
+  whyWorkWithUs: string;
+  wageRate: string;
 }
 
 const TestCreator: React.FC = () => {
-    // Use useLocation to retrieve the state passed from the previous component
-    const location = useLocation();
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Get role from localStorage
+  const role = localStorage.getItem("role");
+  
+  // Get form data from the state passed via location
+  const formdata = location.state?.formData as MainBodyProps | undefined; 
 
-    // Cast the state to the expected type
-    const formdata = location.state?.formdata as MainBodyProps | undefined; // Access formdata safely
+  // Redirect to "Access Denied" page if role is not allowed
+  useEffect(() => {
+    if (role !== "RECRUITER") {
+      navigate("/access-denied");
+    }
+  }, [role, navigate]);
 
-    return (
-        <ThemeProvider>
-            <div>
-                <Navbar />
-                {/* Check if formdata exists; if not, display an error message */}
-                {formdata ? (
-                    <MainBody formdata={formdata} />
-                ) : (
-                    <div className="text-center mt-5">
-                        <h2 className="text-red-600 font-bold">Error: No job data available.</h2>
-                        <p>Please <a href="/jobdescription" className='text-blue-700 hover:underline'>go back</a> and fill out the form.</p>
-                    </div>
-                )}
-            </div>
-        </ThemeProvider>
-    );
+  // Debugging logs
+  console.log(formdata);
+
+  return (
+    <ThemeProvider>
+      <div>
+        <Navbar />
+        {/* Show the main body or error message if formdata is missing */}
+        {formdata ? (
+          <MainBody formData={formdata} />
+        ) : (
+          <div className="text-center mt-5">
+            <h2 className="text-red-600 font-bold">Error: No job data available.</h2>
+            <p>Please <a href="/jobdescription" className="text-blue-700 hover:underline">go back</a> and fill out the form.</p>
+          </div>
+        )}
+      </div>
+    </ThemeProvider>
+  );
 };
 
 export default TestCreator;
