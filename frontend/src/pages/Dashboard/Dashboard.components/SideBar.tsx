@@ -1,9 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import DOMPurify from "dompurify";
 import { Briefcase, MapPin } from "lucide-react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface JobData {
   id: string;
@@ -36,7 +35,7 @@ const SideBar: React.FC<{ jobData: JobData }> = ({ jobData }) => {
 
   const handleNextStepClickEvent = () => {
     if (QuestionObj && jobId) {
-      navigate('/description', { state: { QuestionObj, jobId,jobData } });
+      navigate('/description', { state: { QuestionObj, jobId, jobData } });
     } else {
       alert("Invalid job data");
     }
@@ -44,10 +43,10 @@ const SideBar: React.FC<{ jobData: JobData }> = ({ jobData }) => {
 
   const sanitize = (content: string) => DOMPurify.sanitize(content);
 
-
   return (
-    <div className="flex justify-center py-6 overflow-auto">
-      <Card className="w-[360px] border-0 ">
+    <div className="flex justify-center w-full max-w-[400px]">
+      {/* Scrollable Card */}
+      <Card className="w-full max-w-[360px] h-auto border-0 overflow-hidden">
         <CardHeader className="p-4 flex flex-col gap-4 items-start">
           <CardTitle className="text-2xl font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
             <Briefcase className="w-6 h-6 text-blue-600 dark:text-blue-400" />
@@ -64,8 +63,8 @@ const SideBar: React.FC<{ jobData: JobData }> = ({ jobData }) => {
           </Button>
         </CardHeader>
 
-        <CardContent className="px-6 pb-4 space-y-6">
-          {[ 
+        <CardContent className="px-6 pb-4 space-y-6 overflow-y-auto" style={{ maxHeight: '60vh' }}>
+          {[
             { title: "Job Description", content: jobData.jobDescription.description },
             { title: "Benefits", content: jobData.jobDescription.benefits },
             { title: "Our Values", content: jobData.jobDescription.ourValues },
@@ -81,7 +80,6 @@ const SideBar: React.FC<{ jobData: JobData }> = ({ jobData }) => {
           ))}
         </CardContent>
       </Card>
-
     </div>
   );
 };

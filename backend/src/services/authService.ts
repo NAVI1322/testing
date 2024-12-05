@@ -144,6 +144,7 @@ export const loginService = async (email: string, password: string) => {
             lastName: true,
             createdAt:true,
             email:true,
+            id:true
             
           },
         },
@@ -160,7 +161,6 @@ export const loginService = async (email: string, password: string) => {
 
        }, 
     });
-
     
     // Check if user does not exist
     if (!userExist) {
@@ -176,7 +176,7 @@ export const loginService = async (email: string, password: string) => {
     const dataReterived = userExist.Employee?userExist.Employee:userExist.Recruiter;
 
     // If user exists and password is correct
-    return { success: true, message: 'Login successful', Role: userExist.role  ,userdata:dataReterived };
+    return { success: true, message: 'Login successful', Role: userExist.role  , userdata:dataReterived };
   } catch (error) {
     console.error('Login Error:', error);
     return { success: false, message: 'An error occurred during login' };

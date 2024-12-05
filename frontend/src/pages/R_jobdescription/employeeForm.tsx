@@ -32,7 +32,7 @@ const tips = {
 };
 
 const JobApplicationForm = () => {
-  const Router = useNavigate();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<JobFormData>({
     jobName: "",
@@ -60,21 +60,33 @@ const JobApplicationForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    Router("/TestCreator", { state: { formData } });
+    console.log("Form submitted:", formData);
+    navigate("/TestCreator", { state: { formData } });
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 h-screen">
-      <div className="flex flex-col md:flex-row items-center w-full max-w-5xl mx-4 bg-transparent rounded-lg h-screen md:h-auto overflow-y-auto">
-        <Card className="w-full md:w-2/3 rounded-lg shadow-lg h-screen md:h-auto overflow-y-auto">
-          <CardHeader className="px-4 py-3 bg-blue-50 flex justify-between items-center rounded-t-lg">
-            <CardTitle className="text-md font-semibold text-blue-900">Create a Job Posting</CardTitle>
+    <div className="flex flex-col items-center justify-between w-full h-screen  bg-gray-100 dark:bg-blue-100 p-6">
+      <div className="flex flex-col md:flex-row items-start justify-center w-full max-w-7xl mx-auto  bg-gray-100 dark:bg-blue-100 rounded-lg shadow-lg overflow-hidden h-full">
+
+        {/* Back Button */}
+        <div className="w-full md:w-1/4 p-4 flex justify-start   bg-gray-100 dark:bg-blue-100">
+          <Button
+            onClick={() => navigate(-1)}
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md text-sm "
+          >
+            Back
+          </Button>
+        </div>
+
+        <Card className="w-full  bg-gray-100  dark:bg-black md:w-2/3 lg:w-3/4 xl:w-3/4 rounded-lg shadow-lg  overflow-hidden flex flex-col justify-between h-full">
+          <CardHeader className="px-6 py-4 bg-blue-50 flex justify-between items-center rounded-t-lg">
+            <CardTitle className="text-lg font-semibold text-blue-900">Create a Job Posting</CardTitle>
           </CardHeader>
 
-          <CardContent className="px-4 py-3 space-y-3">
-            <form onSubmit={handleSubmit} className="space-y-3">
+          <CardContent className="px-6 py-4 space-y-6 flex-grow overflow-auto ">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Job Name & Wage Rate */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 ">
                 <Input
                   name="jobName"
                   placeholder="Job Title"
@@ -119,7 +131,7 @@ const JobApplicationForm = () => {
                 onBlur={() => handleFocus(null)}
                 required
                 className="rounded-md text-sm"
-                rows={2}
+                rows={3}
               />
               <Textarea
                 name="benefits"
@@ -130,7 +142,7 @@ const JobApplicationForm = () => {
                 onBlur={() => handleFocus(null)}
                 required
                 className="rounded-md text-sm"
-                rows={2}
+                rows={3}
               />
               <Textarea
                 name="ourValues"
@@ -141,7 +153,7 @@ const JobApplicationForm = () => {
                 onBlur={() => handleFocus(null)}
                 required
                 className="rounded-md text-sm"
-                rows={2}
+                rows={3}
               />
               <Textarea
                 name="positionSummary"
@@ -152,7 +164,7 @@ const JobApplicationForm = () => {
                 onBlur={() => handleFocus(null)}
                 required
                 className="rounded-md text-sm"
-                rows={2}
+                rows={3}
               />
               <Textarea
                 name="positionResponsibilities"
@@ -163,7 +175,7 @@ const JobApplicationForm = () => {
                 onBlur={() => handleFocus(null)}
                 required
                 className="rounded-md text-sm"
-                rows={2}
+                rows={3}
               />
               <Textarea
                 name="skillsRequired"
@@ -174,7 +186,7 @@ const JobApplicationForm = () => {
                 onBlur={() => handleFocus(null)}
                 required
                 className="rounded-md text-sm"
-                rows={2}
+                rows={3}
               />
               <Textarea
                 name="whyWorkWithUs"
@@ -185,31 +197,29 @@ const JobApplicationForm = () => {
                 onBlur={() => handleFocus(null)}
                 required
                 className="rounded-md text-sm"
-                rows={2}
+                rows={3}
               />
-
-              <Button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md text-sm"
-              >
-                Submit Job Posting
-              </Button>
             </form>
           </CardContent>
+
+          {/* Submit Button */}
+          <div className="w-full p-4 flex justify-end mt-6">
+            <Button
+              onClick={handleSubmit}
+              className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md text-sm"
+            >
+              Submit Job Posting
+            </Button>
+          </div>
         </Card>
 
         {/* Tips Section */}
-        <div className="hidden md:block max-w-sm w-full mx-4 rounded-lg shadow-xl p-4 h-4/5 bg-gradient-to-r from-blue-500 to-blue-700 text-white overflow-y-auto">
-          <h2 className="text-lg font-bold mb-2">Job Posting Tips</h2>
-          <ul className="space-y-2 text-sm">
-            {Object.entries(tips).map(([field, tip]) => (
-              <li
-                key={field}
-                className={`transition-colors duration-300 ${
-                  activeField === field ? "text-white" : "text-white/75"
-                }`}
-              >
-                • {tip}
+        <div className="hidden md:block w-full md:w-1/4 p-6 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg shadow-xl">
+          <h2 className="text-lg font-semibold mb-4">Tips for a Successful Job Posting</h2>
+          <ul className="space-y-2">
+            {Object.entries(tips).map(([key, tip]) => (
+              <li key={key} className="text-sm">
+                <strong>{key.replace(/([A-Z])/g, " $1")}</strong>: {tip}
               </li>
             ))}
           </ul>

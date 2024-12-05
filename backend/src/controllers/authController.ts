@@ -89,6 +89,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const role = response.Role as 'RECRUITER' | 'JOB_SEEKER'; // Assuming Role is provided in the response
 
     const userdata = response.userdata;
+    console.log(userdata?.id)
 
     // Generate the token with the user's role
     const token = generateToken(email, role);

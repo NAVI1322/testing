@@ -53,7 +53,7 @@ const MainBody: React.FC = () => {
           <Button
             variant={"myButton"}
             className="mb-3 nhd:hidden block m-auto mt-5 w-1/2"
-            onClick={() => router("/teststructure")}
+            onClick={() => router("/create-job")}
           >
             Create Test
           </Button>

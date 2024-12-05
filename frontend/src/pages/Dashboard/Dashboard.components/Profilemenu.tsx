@@ -15,6 +15,7 @@ export function ProfileContectMenu()
       // Clear the local storage
       localStorage.removeItem("token");
       localStorage.removeItem("Token");
+      localStorage.removeItem("Id");
       localStorage.removeItem("email");
       localStorage.removeItem("role");
   

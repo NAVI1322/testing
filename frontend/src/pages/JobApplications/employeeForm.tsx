@@ -16,13 +16,14 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { SelectValue } from "@radix-ui/react-select";
+import Navbar from "./Nav";
 
 interface FormData {
   firstName: string;
   lastName: string;
   address: string;
   phoneNumber: string;
-  email: string;
+  email: any;
   location: string;
   resume: File | null;
   coverLetter: string;
@@ -47,13 +48,18 @@ const ApplicationForm: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const jobdata = location.state;
+  const email:string | null = localStorage.getItem("email");
+
+
+
+
 
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
     address: "",
     phoneNumber: "",
-    email: "",
+    email: email,
     location: "",
     resume: null,
     coverLetter: "",
@@ -102,7 +108,9 @@ const ApplicationForm: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 h-screen flex justify-center items-center">
+   <div className="">
+    <Navbar />
+    <div className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100  flex justify-center items-center">
       <div className="max-w-5xl w-full mx-4 rounded-lg shadow-xl bg-white dark:bg-gray-800 h-4/5 grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Tips Column */}
         <div className="hidden md:block bg-gray-50 dark:bg-gray-700 p-6 rounded-lg shadow-lg">
@@ -161,10 +169,10 @@ const ApplicationForm: React.FC = () => {
                     name="email"
                     placeholder="Email Address"
                     value={formData.email}
-                    onChange={handleInputChange}
                     onFocus={() => handleFocus("email")}
                     onBlur={() => handleFocus(null)}
                     required
+                    disabled
                     type="email"
                     className="rounded-md"
                   />
@@ -259,6 +267,7 @@ const ApplicationForm: React.FC = () => {
         </div>
       </div>
     </div>
+   </div>
   );
 };
 

@@ -62,6 +62,11 @@ const Quiz = () => {
   const { jobDetails, employeeDetails }: LocationState = location.state || {};
   const { QuestionObj } = jobDetails || {};
 
+  console.log(JSON.stringify(QuestionObj))
+  const shuffleArray = <T,>(array: T[]): T[] => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
   // Generate random questions only once
   useEffect(() => {
     const filteredQuestions = QuestionObj.filter(
@@ -70,10 +75,14 @@ const Quiz = () => {
         question.type === "true-false" ||
         question.type === "MCQ"
     );
-
-    const shuffledQuestions = filteredQuestions.sort(() => Math.random() - 0.5);
+  
+    const shuffledQuestions = filteredQuestions.map((question) => ({
+      ...question,
+      options: shuffleArray(question.options), // Shuffle options for each question
+    })).sort(() => Math.random() - 0.5);
+  
     const selectedQuestions = shuffledQuestions.slice(0, 8);
-
+  
     setRandomQuestions(selectedQuestions);
   }, [QuestionObj]);
 
@@ -81,13 +90,16 @@ const Quiz = () => {
   useEffect(() => {
     if (!randomQuestions.length) return;
 
+    const currentTimeLimit = randomQuestions[currentQuestionIndex]?.timeLimit || 40;
+
     let timer: NodeJS.Timeout | undefined;
-    if (isActive && elapsedTime < (randomQuestions[currentQuestionIndex]?.timeLimit || 40)) {
+    if (isActive && elapsedTime < currentTimeLimit) {
       timer = setInterval(() => setElapsedTime((prev) => prev + 1), 1000);
-    } else if (elapsedTime >= (randomQuestions[currentQuestionIndex]?.timeLimit || 40)) {
+    } else if (elapsedTime >= currentTimeLimit) {
       setIsActive(false);
       handleNext();
     }
+
     return () => {
       if (timer) clearInterval(timer);
     };
@@ -98,54 +110,51 @@ const Quiz = () => {
   };
 
   const handleNext = () => {
-    setAllAttempts((prev) => [...prev, selectedAnswers]);
+    const updatedAttempts = [...allAttempts, selectedAnswers];
+    setAllAttempts(updatedAttempts);
     setSelectedAnswers([]);
-
+  
     if (currentQuestionIndex < randomQuestions.length - 1) {
       setCurrentQuestionIndex((prev) => prev + 1);
       setElapsedTime(0);
       setIsActive(true);
     } else {
-      handleSubmit();
+      // Submit after saving the last answer
+      handleSubmit(updatedAttempts);
     }
   };
-
-  const calculateScore = (): number => {
+  const calculateScore = (finalAttempts: string[][]): number => {
     return randomQuestions.reduce((score, question, index) => {
-      const userAnswers = allAttempts[index] || [];
+      const userAnswers = finalAttempts[index] || [];
       const correctAnswers = question.correctAnswers;
-
+  
       const isCorrect =
         userAnswers.length === correctAnswers.length &&
         userAnswers.every((ans) => correctAnswers.includes(ans));
+  
       return isCorrect ? score + 1 : score;
     }, 0);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (finalAttempts = allAttempts) => {
     const quizData = {
       jobDetails,
       employeeDetails,
-      answers: allAttempts,
+      answers: finalAttempts,
       questions: randomQuestions.map((q) => ({
         content: q.content,
         correctAnswers: q.correctAnswers,
       })),
-      score: calculateScore(),
+      score: calculateScore(finalAttempts), // Use the finalAttempts
     };
-
+  
     console.log("Navigating with State:", quizData);
     navigate("/quiz-results", { state: quizData });
   };
 
-  const remainingTime =
-    randomQuestions[currentQuestionIndex]?.timeLimit - elapsedTime || 0;
-  const progress = Math.min(
-    (elapsedTime /
-      (randomQuestions[currentQuestionIndex]?.timeLimit || 40)) *
-      100,
-    100
-  ).toFixed(2);
+  const currentTimeLimit = randomQuestions[currentQuestionIndex]?.timeLimit || 40;
+  const remainingTime = Math.max(currentTimeLimit - elapsedTime, 0);
+  const progress = Math.min((elapsedTime / currentTimeLimit) * 100, 100).toFixed(2);
 
   if (!randomQuestions.length) {
     return (

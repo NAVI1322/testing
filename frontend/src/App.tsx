@@ -6,7 +6,6 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import ProfilePage from './pages/Profile/ProfilePage'
 import HomePage from './pages/Homepage/Homepage'
 import TestCreator from './pages/TestCreator/TestCreator'
-import TestStructure from './pages/TestStructure/TestStructure'
 import Recruiter from './pages/Recruiter/Recruiter'
 import Applications from './pages/Applications/Applications'
 import JobDescriptionPage from './pages/JobApplications/Jobdesc'
@@ -28,7 +27,6 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/testcreator" element={<TestCreator />} />
         <Route path="/profile" element={<ProfilePage/>} />
-        <Route path="/teststructure" element={<TestStructure/>} />
         <Route path="/recruiter" element={<Recruiter/>} />
         <Route path="/applications" element={<Applications />} />
         <Route path="/rest" element={<Rest/>} />

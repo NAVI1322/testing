@@ -9,6 +9,8 @@ const loginCall = async (email: string, password: string) => {
       password: password,
     });
         
+
+    console.log(response.data.userdata)
     localStorage.setItem("Token", response.data.token);
     localStorage.setItem("role", response.data.role);
     localStorage.setItem("Id", response.data.userdata.id);

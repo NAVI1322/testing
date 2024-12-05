@@ -25,10 +25,10 @@ model Employee {
   email        String        @unique
   about        String?
   userId       Int           @unique
-  user         User          @relation(fields: [userId], references: [id])
+  user         User          @relation(fields: [userId], references: [id] , onDelete: Cascade)
   address      String?       // Ensure 'address' is defined here
   phoneNumber  String?
-  location     String?       // If this field is optional
+  location     String?       // If this field is optional 
   resume       String?
   coverLetter  String?
   whyJoin      String?
@@ -71,25 +71,28 @@ model JobDescription {
   createdAt                DateTime       @default(now())
   updatedAt                DateTime?      @updatedAt
 }
+
 model AvailableJob {
   id               String                 @id @default(uuid())
   jobDescriptionId String
-  jobDescription   JobDescription         @relation("JobDescriptionAvailableJobs", fields: [jobDescriptionId], references: [id])
+  jobDescription   JobDescription         @relation("JobDescriptionAvailableJobs", fields: [jobDescriptionId], references: [id], onDelete: Cascade)
   questions        Question[]
   recruiters       AvailableJobRecruiter[]
-  applications     Application[]          // Relation to applications
+  applications     Application[]          // No fields or references here
   createdAt        DateTime               @default(now())
   updatedAt        DateTime?              @updatedAt
 }
+
 
 model AvailableJobRecruiter {
   id               String        @id @default(uuid())
   availableJobId   String
   recruiterId      String
-  availableJob     AvailableJob  @relation(fields: [availableJobId], references: [id])
-  recruiter        Recruiter     @relation(fields: [recruiterId], references: [id])
+  availableJob     AvailableJob  @relation(fields: [availableJobId], references: [id], onDelete: Cascade)
+  recruiter        Recruiter     @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
   createdAt        DateTime      @default(now())
 }
+
 model Question {
   id             String        @id @default(uuid())
   availableJobId String
@@ -101,15 +104,14 @@ model Question {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime?     @updatedAt
 }
-
 model Application {
   id          String            @id @default(uuid())
   employeeId  String
   employee    Employee          @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   recruiterId String?           
   recruiter   Recruiter?        @relation(fields: [recruiterId], references: [id], onDelete: Cascade)
-  jobId       String?           // Add this field
-  job         AvailableJob?     @relation(fields: [jobId], references: [id]) // Define the relation
+  jobId       String?           // Foreign key for AvailableJob
+  job         AvailableJob?     @relation(fields: [jobId], references: [id], onDelete: Cascade) // Relation defined here
   position    String
   status      ApplicationStatus @default(PENDING)
   appliedAt   DateTime          @default(now())
@@ -122,12 +124,12 @@ model Application {
   phoneNumber String
   email       String
   location    String?
-  resume      String?           // Nullable, stores the resume file path or URL
+  resume      String?
   coverLetter String?
   whyJoin     String?
   availability String?
-  createdBy   String?           // Optional: ID of the user who created the application
-  updatedBy   String?           // Optional: ID of the user who last updated the application
+  createdBy   String?
+  updatedBy   String?
 
   @@index([employeeId])
   @@index([recruiterId])

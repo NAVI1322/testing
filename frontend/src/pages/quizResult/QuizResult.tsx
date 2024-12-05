@@ -2,13 +2,17 @@ import { Toast } from "@/components/majorComponents/toast";
 import { handleQuizSubmit } from "@/hooks/HandleQuizSubmit";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./Nav";
+import { useState } from "react";
+import { Loading } from "@/components/majorComponents/loading";
 
 
 const QuizResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [loading, Setloading] = useState(false);
 
   console.log("Location State:", location.state); 
+  console.log(JSON.stringify(location.state))
 
   const {
     jobDetails = { jobDescription: {} },
@@ -29,6 +33,8 @@ const QuizResults = () => {
   }
 
   const handleSubmit = async () => {
+
+    Setloading(true)
     const payload = {
       jobDetails,
       employeeDetails,
@@ -41,10 +47,13 @@ const QuizResults = () => {
       const response = await handleQuizSubmit(payload);
       console.log("Quiz data submitted successfully:", response);
 
+      Setloading(false)
+
       Toast("Success", "Application Submitted Successfully");
       navigate("/dashboard");
     } catch (error) {
       console.error("Error during quiz submission:", error);
+      Setloading(false)
       Toast("Error", "Application Already submitted");
     }
   };
@@ -158,15 +167,24 @@ const QuizResults = () => {
           Retake Quiz
         </button>
 
-        {/* Submit Quiz Button (Conditionally Rendered) */}
+       
         {score / questions.length >= passPercentage && (
-          <button
-            onClick={handleSubmit}
-            className="bg-slate-500 hover:bg-slate-600 text-white font-semibold py-3 px-6 rounded-md"
-          >
-            Submit Quiz
-          </button>
-        )}
+  loading ? (
+    <button
+      className="bg-slate-500 hover:bg-slate-600 text-white font-semibold py-3 px-6 rounded-md"
+    >
+      <Loading />
+    </button>
+   
+  ) : (
+    <button
+      onClick={handleSubmit}
+      className="bg-slate-500 hover:bg-slate-600 text-white font-semibold py-3 px-6 rounded-md"
+    >
+      Submit Quiz
+    </button>
+  )
+)}
       </div>
     </div>
    </div>

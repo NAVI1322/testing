@@ -18,7 +18,6 @@ export function ProfileContectMenu()
       localStorage.removeItem("email");
       localStorage.removeItem("role");
       localStorage.removeItem("Id");
-  
       // Optionally redirect to the login page or another page
       navigate("/login"); // Change the path as needed
     };

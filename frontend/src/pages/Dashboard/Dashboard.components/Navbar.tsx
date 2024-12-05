@@ -17,20 +17,15 @@ const Navbar = () => {
           <img className="h-6 w-20 mr-2 mix-blend-difference dark:mix-blend-normal" src={darklogo} alt="Logo"/>
           </a>
  
-          <div className='hidden ffty:flex w-[250px] h-10 bg-transparent dark:bg-gray-900/50 border border-gray-200/30 dark:border rounded-full  justify-center items-center gap-2'>
-            <Search className=' size-5' /><input type="text" className='bg-transparent w-[200px] focus:outline-none text-sm' placeholder='Search...' />
-          </div>
+        
         </div>
         <div className='flex gap-10 items-center justify-evenly text-sm'>
-            <Search className='block ffty:hidden size-5'/>
-          <div className='sty:flex gap-2 items-center hidden'>
-        <NotebookPen className='size-5' />
-          <div>Write</div>
-          </div>
+          
+         
           <div className="hidden md:block">
           <ModeToggle />
           </div>
-        <BellRing className='size-5'/>
+    
         <ContextMenu>
         <ContextMenuTrigger>
         <div>

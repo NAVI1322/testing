@@ -11,40 +11,40 @@ interface QuestionData {
 
 interface MainBodyProps {
     formData?: {
-        jobName: string;
-        jobDescription: string;
-        benefits: string;
-        ourValues: string;
-        positionSummary: string;
-        positionResponsibilities: string;
-        skillsRequired: string;
-        whyWorkWithUs: string;
-        wageRate: string;
+      jobName: string;
+      jobDescription: string;
+      benefits: string;
+      ourValues: string;
+      positionSummary: string;
+      positionResponsibilities: string;
+      skillsRequired: string;
+      whyWorkWithUs: string;
+      wageRate: string;
     };
+  }
+
+interface Details {
+    email: string;
+    role: string;
+    token: string;
 }
 
-interface Details{
-    email : string ;
-    role  :  string ;
-    token : string ;
-}
-
-// Adjusted the parameter type to be an array of QuestionData
-const CreateTest = async (Jobdata:MainBodyProps, questions: QuestionData[], recruiterDetails:Details) => {
-
-    console.log(recruiterDetails)
+// Adjust the parameter type to be an array of QuestionData
+const CreateTest = async (
+    Jobdata: MainBodyProps, 
+    questions: QuestionData[], 
+    recruiterDetails: Details
+) => {
+    console.log(recruiterDetails);
     try {
-      
-
-        
         const response = await axios.post('http://localhost:3000/create/createjob', {
             Jobdata,
-            recruiterDetails:{
-                Email:recruiterDetails.email,
-                Token:recruiterDetails.token,
-                Role:recruiterDetails.role
+            recruiterDetails: {
+                Email: recruiterDetails.email,
+                Token: recruiterDetails.token,
+                Role: recruiterDetails.role
             },
-            questions: questions.map(e => ({
+            questions: questions.map((e) => ({
                 type: e.type,
                 content: e.content,
                 options: e.options || [], // Default to empty array if not provided
@@ -53,10 +53,7 @@ const CreateTest = async (Jobdata:MainBodyProps, questions: QuestionData[], recr
         });
         Toast("Success", "Test Created Successfully");
         return response.data; // Return the response data
-
     } catch (error: any) {
-
-      
         Toast("Error", "Failed to create Test", "Try Again");
         if (error.response) {
             console.error('Error response:', error.response.data);
@@ -67,4 +64,4 @@ const CreateTest = async (Jobdata:MainBodyProps, questions: QuestionData[], recr
     }
 };
 
-export default CreateTest; // Make sure to export the function correctly
+export default CreateTest;
